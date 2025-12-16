@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"cursor2api/internal/browser"
+	"cursor2api/internal/tools"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -17,17 +18,18 @@ import (
 
 // MessagesRequest Anthropic Messages API 请求格式
 type MessagesRequest struct {
-	Model     string      `json:"model"`
-	Messages  []Message   `json:"messages"`
-	MaxTokens int         `json:"max_tokens"`
-	Stream    bool        `json:"stream"`
-	System    interface{} `json:"system,omitempty"` // 可以是 string 或 []ContentBlock
+	Model     string                 `json:"model"`
+	Messages  []Message              `json:"messages"`
+	MaxTokens int                    `json:"max_tokens"`
+	Stream    bool                   `json:"stream"`
+	System    interface{}            `json:"system,omitempty"` // 可以是 string 或 []ContentBlock
+	Tools     []tools.ToolDefinition `json:"tools,omitempty"`  // 工具定义
 }
 
 // Message 消息格式
 type Message struct {
 	Role    string      `json:"role"`
-	Content interface{} `json:"content"` // 可以是 string 或 []ContentBlock
+	Content interface{} `json:"content"` // 可以是 string 或 []ContentBlock 或 []ToolResult
 }
 
 // MessagesResponse Anthropic Messages API 响应格式
@@ -42,16 +44,30 @@ type MessagesResponse struct {
 	Usage        Usage          `json:"usage"`
 }
 
-// ContentBlock 内容块
+// ContentBlock 内容块（支持 text 和 tool_use）
 type ContentBlock struct {
-	Type string `json:"type"`
-	Text string `json:"text"`
+	Type  string                 `json:"type"`
+	Text  string                 `json:"text,omitempty"`
+	ID    string                 `json:"id,omitempty"`    // tool_use
+	Name  string                 `json:"name,omitempty"`  // tool_use
+	Input map[string]interface{} `json:"input,omitempty"` // tool_use
 }
 
 // Usage token 使用统计
 type Usage struct {
 	InputTokens  int `json:"input_tokens"`
 	OutputTokens int `json:"output_tokens"`
+}
+
+// 全局工具执行器和解析器
+var (
+	toolExecutor *tools.Executor
+	toolParser   *tools.Parser
+)
+
+func init() {
+	toolExecutor = tools.NewExecutor()
+	toolParser = tools.NewParser()
 }
 
 // CursorSSEEvent Cursor SSE 事件格式
@@ -168,8 +184,14 @@ func Messages(c *gin.Context) {
 func convertToCursor(req MessagesRequest) browser.CursorChatRequest {
 	messages := make([]browser.CursorMessage, 0, len(req.Messages)+1)
 
-	// 添加 system 消息
-	if sysText := getTextContent(req.System); sysText != "" {
+	// 构建系统消息（包含工具定义）
+	sysText := getTextContent(req.System)
+	if len(req.Tools) > 0 {
+		toolPrompt := tools.GenerateToolPrompt(req.Tools)
+		sysText += toolPrompt
+	}
+
+	if sysText != "" {
 		messages = append(messages, browser.CursorMessage{
 			Parts: []browser.CursorPart{{Type: "text", Text: sysText}},
 			ID:    generateID(),
@@ -179,11 +201,14 @@ func convertToCursor(req MessagesRequest) browser.CursorChatRequest {
 
 	// 添加用户/助手消息
 	for _, msg := range req.Messages {
-		messages = append(messages, browser.CursorMessage{
-			Parts: []browser.CursorPart{{Type: "text", Text: getTextContent(msg.Content)}},
-			ID:    generateID(),
-			Role:  msg.Role,
-		})
+		text := extractMessageText(msg)
+		if text != "" {
+			messages = append(messages, browser.CursorMessage{
+				Parts: []browser.CursorPart{{Type: "text", Text: text}},
+				ID:    generateID(),
+				Role:  msg.Role,
+			})
+		}
 	}
 
 	return browser.CursorChatRequest{
@@ -196,6 +221,65 @@ func convertToCursor(req MessagesRequest) browser.CursorChatRequest {
 		ID:       generateID(),
 		Messages: messages,
 		Trigger:  "submit-message",
+	}
+}
+
+// extractMessageText 从消息中提取文本（处理 tool_result）
+func extractMessageText(msg Message) string {
+	content := msg.Content
+	if content == nil {
+		return ""
+	}
+
+	switch v := content.(type) {
+	case string:
+		return v
+	case []interface{}:
+		var texts []string
+		for _, item := range v {
+			block, ok := item.(map[string]interface{})
+			if !ok {
+				continue
+			}
+
+			blockType, _ := block["type"].(string)
+			switch blockType {
+			case "text":
+				if text, ok := block["text"].(string); ok {
+					texts = append(texts, text)
+				}
+			case "tool_result":
+				// 处理工具结果
+				toolUseID, _ := block["tool_use_id"].(string)
+				resultContent := block["content"]
+				isError, _ := block["is_error"].(bool)
+
+				resultText := ""
+				switch rc := resultContent.(type) {
+				case string:
+					resultText = rc
+				case []interface{}:
+					for _, rcItem := range rc {
+						if rcBlock, ok := rcItem.(map[string]interface{}); ok {
+							if rcBlock["type"] == "text" {
+								if t, ok := rcBlock["text"].(string); ok {
+									resultText += t
+								}
+							}
+						}
+					}
+				}
+
+				prefix := "工具执行结果"
+				if isError {
+					prefix = "工具执行错误"
+				}
+				texts = append(texts, fmt.Sprintf("[%s (ID: %s)]\n%s", prefix, toolUseID, resultText))
+			}
+		}
+		return strings.Join(texts, "\n")
+	default:
+		return fmt.Sprintf("%v", v)
 	}
 }
 
@@ -220,8 +304,9 @@ func handleStream(c *gin.Context, cursorReq browser.CursorChatRequest, model str
 	c.Writer.WriteString(`data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}}` + "\n\n")
 	flusher.Flush()
 
-	// 用于累积不完整的 SSE 行
+	// 用于累积完整响应和 SSE 行
 	var buffer strings.Builder
+	var fullResponse strings.Builder
 
 	svc := browser.GetService()
 	err := svc.SendStreamRequest(cursorReq, func(chunk string) {
@@ -253,6 +338,7 @@ func handleStream(c *gin.Context, cursorReq browser.CursorChatRequest, model str
 			}
 
 			if event.Type == "text-delta" && event.Delta != "" {
+				fullResponse.WriteString(event.Delta)
 				deltaJSON, _ := json.Marshal(event.Delta)
 				c.Writer.WriteString("event: content_block_delta\n")
 				c.Writer.WriteString(`data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":` + string(deltaJSON) + `}}` + "\n\n")
@@ -271,13 +357,49 @@ func handleStream(c *gin.Context, cursorReq browser.CursorChatRequest, model str
 	c.Writer.WriteString(`data: {"type":"content_block_stop","index":0}` + "\n\n")
 	flusher.Flush()
 
+	// 检测是否有工具调用，决定 stop_reason
+	stopReason := "end_turn"
+	responseText := fullResponse.String()
+	toolCalls, _ := toolParser.ParseToolCalls(responseText)
+
+	if len(toolCalls) > 0 {
+		stopReason = "tool_use"
+		// 发送工具调用块
+		for i, call := range toolCalls {
+			toolID := "toolu_" + generateID()
+			inputJSON, _ := json.Marshal(call.Input)
+
+			c.Writer.WriteString("event: content_block_start\n")
+			c.Writer.WriteString(fmt.Sprintf(`data: {"type":"content_block_start","index":%d,"content_block":{"type":"tool_use","id":"%s","name":"%s","input":{}}}`+"\n\n", i+1, toolID, call.Name))
+			flusher.Flush()
+
+			c.Writer.WriteString("event: content_block_delta\n")
+			c.Writer.WriteString(fmt.Sprintf(`data: {"type":"content_block_delta","index":%d,"delta":{"type":"input_json_delta","partial_json":"%s"}}`+"\n\n", i+1, escapeJSON(string(inputJSON))))
+			flusher.Flush()
+
+			c.Writer.WriteString("event: content_block_stop\n")
+			c.Writer.WriteString(fmt.Sprintf(`data: {"type":"content_block_stop","index":%d}`+"\n\n", i+1))
+			flusher.Flush()
+		}
+	}
+
 	c.Writer.WriteString("event: message_delta\n")
-	c.Writer.WriteString(`data: {"type":"message_delta","delta":{"stop_reason":"end_turn","stop_sequence":null},"usage":{"output_tokens":100}}` + "\n\n")
+	c.Writer.WriteString(fmt.Sprintf(`data: {"type":"message_delta","delta":{"stop_reason":"%s","stop_sequence":null},"usage":{"output_tokens":100}}`+"\n\n", stopReason))
 	flusher.Flush()
 
 	c.Writer.WriteString("event: message_stop\n")
 	c.Writer.WriteString(`data: {"type":"message_stop"}` + "\n\n")
 	flusher.Flush()
+}
+
+// escapeJSON 转义 JSON 字符串中的特殊字符
+func escapeJSON(s string) string {
+	s = strings.ReplaceAll(s, `\`, `\\`)
+	s = strings.ReplaceAll(s, `"`, `\"`)
+	s = strings.ReplaceAll(s, "\n", `\n`)
+	s = strings.ReplaceAll(s, "\r", `\r`)
+	s = strings.ReplaceAll(s, "\t", `\t`)
+	return s
 }
 
 // handleNonStream 处理非流式请求
@@ -311,13 +433,61 @@ func handleNonStream(c *gin.Context, cursorReq browser.CursorChatRequest, model 
 		}
 	}
 
+	responseText := fullText.String()
+	contentBlocks := parseResponseToBlocks(responseText)
+
+	// 确定 stop_reason
+	stopReason := "end_turn"
+	for _, block := range contentBlocks {
+		if block.Type == "tool_use" {
+			stopReason = "tool_use"
+			break
+		}
+	}
+
 	c.JSON(http.StatusOK, MessagesResponse{
 		ID:         "msg_" + generateID(),
 		Type:       "message",
 		Role:       "assistant",
-		Content:    []ContentBlock{{Type: "text", Text: fullText.String()}},
+		Content:    contentBlocks,
 		Model:      model,
-		StopReason: "end_turn",
+		StopReason: stopReason,
 		Usage:      Usage{InputTokens: 100, OutputTokens: 100},
 	})
+}
+
+// parseResponseToBlocks 解析 AI 响应为内容块（检测工具调用）
+func parseResponseToBlocks(text string) []ContentBlock {
+	var blocks []ContentBlock
+
+	// 检测工具调用
+	toolCalls, remainingText := toolParser.ParseToolCalls(text)
+
+	// 添加文本块
+	if remainingText != "" {
+		blocks = append(blocks, ContentBlock{
+			Type: "text",
+			Text: remainingText,
+		})
+	}
+
+	// 添加工具调用块
+	for _, call := range toolCalls {
+		blocks = append(blocks, ContentBlock{
+			Type:  "tool_use",
+			ID:    "toolu_" + generateID(),
+			Name:  call.Name,
+			Input: call.Input,
+		})
+	}
+
+	// 如果没有任何内容，添加空文本块
+	if len(blocks) == 0 {
+		blocks = append(blocks, ContentBlock{
+			Type: "text",
+			Text: text,
+		})
+	}
+
+	return blocks
 }
