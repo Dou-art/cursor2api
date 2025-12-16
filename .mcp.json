@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "cursor2api": {
+      "command": "./cursor2api-mcp"
+    }
+  }
+}
