@@ -20,6 +20,8 @@
 
 > 💡 **建议开启自动执行模式** (`auto_execute: true`)，可以实现类似工具调用的效果。当 AI 输出命令建议时，系统会自动提取并执行。
 
+![alt text](/static/image.png)
+
 ## 功能特性
 
 - **Anthropic Messages API** - 完整支持 `/v1/messages` 接口
