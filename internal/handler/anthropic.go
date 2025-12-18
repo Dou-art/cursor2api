@@ -103,58 +103,12 @@ func getTextContent(content interface{}) string {
 
 // mapModelName 将模型名称映射到 Cursor 支持的格式
 func mapModelName(model string) string {
-	if model == "" {
-		return "claude-4.5-sonnet"
+	// 统一使用 claude-opus-4-5-20251101
+	const targetModel = "claude-opus-4-5-20251101"
+	if model != targetModel {
+		log.Debug("模型映射: %s -> %s", model, targetModel)
 	}
-
-	// 模型映射表
-	modelMap := map[string]string{
-		// Claude 系列 -> claude-4.5-sonnet
-		"claude-3-opus":            "claude-4.5-sonnet",
-		"claude-3-sonnet":          "claude-4.5-sonnet",
-		"claude-3-haiku":           "claude-4.5-sonnet",
-		"claude-3.5-sonnet":        "claude-4.5-sonnet",
-		"claude-3.5-haiku":         "claude-4.5-sonnet",
-		"claude-3.7-sonnet":        "claude-4.5-sonnet",
-		"claude-sonnet-4-20250514": "claude-4.5-sonnet",
-		"claude-opus-4-20250514":   "claude-4.5-opus",
-
-		// GPT 系列 -> gpt-5.2
-		"gpt-4":       "gpt-5.2",
-		"gpt-4o":      "gpt-5.2",
-		"gpt-4-turbo": "gpt-5.2",
-		"gpt-3.5":     "gpt-5.2",
-
-		// Gemini 系列 -> gemini-3-flash
-		"gemini-pro":       "gemini-3-flash",
-		"gemini-1.5-pro":   "gemini-3-pro",
-		"gemini-1.5-flash": "gemini-3-flash",
-		"gemini-2.0-flash": "gemini-3-flash",
-		"gemini-2.5-flash": "gemini-3-flash",
-	}
-
-	// 精确匹配
-	if mapped, ok := modelMap[model]; ok {
-		log.Debug("模型映射: %s -> %s", model, mapped)
-		return mapped
-	}
-
-	// 前缀匹配
-	switch {
-	case len(model) >= 6 && model[:6] == "claude":
-		log.Debug("模型映射 (前缀): %s -> claude-4.5-sonnet", model)
-		return "claude-4.5-sonnet"
-	case len(model) >= 3 && model[:3] == "gpt":
-		log.Debug("模型映射 (前缀): %s -> gpt-5.2", model)
-		return "gpt-5.2"
-	case len(model) >= 6 && model[:6] == "gemini":
-		log.Debug("模型映射 (前缀): %s -> gemini-3-flash", model)
-		return "gemini-3-flash"
-	}
-
-	// 未知模型，使用默认
-	log.Warn("未知模型 %s，使用默认 claude-4.5-sonnet", model)
-	return "claude-4.5-sonnet"
+	return targetModel
 }
 
 // ================== 处理器函数 ==================

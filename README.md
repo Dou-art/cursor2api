@@ -380,13 +380,7 @@ curl http://localhost:3010/tools/execute \
 
 ## 支持的模型
 
-| 请求模型 | 映射到 Cursor |
-|---------|--------------|
-| claude-* | claude-4.5-sonnet |
-| claude-opus-4-* | claude-4.5-opus |
-| gpt-* | gpt-5.2 |
-| gemini-* | gemini-3-flash |
-| gemini-*-pro | gemini-3-pro |
+所有请求统一映射到 `claude-opus-4-5-20251101`。
 
 ## MCP 服务器
 
