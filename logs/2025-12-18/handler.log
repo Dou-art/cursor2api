@@ -1437,3 +1437,308 @@
 {"level":"INFO","time":"2025/12/18 10:35:49","msg":"[Handler]   流式: true"}
 {"level":"DEBUG","time":"2025/12/18 10:35:49","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: 你好\n\nRespond with the title for the conversation and nothing else."}
 {"level":"DEBUG","time":"2025/12/18 10:35:49","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Length: 2911"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: 你好\n\nClaude: 你好！👋\n\n我是 Claude Code，很高兴为你服务。我可以帮助你完成各种软件工程任务，比..."}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Length: 42461"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   消息数: 1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   消息[0] 角色=user 内容=<system-reminder>\nAs you answer the user's questions, you can use the following context:\n# claudeMd\nCodebase and user instructions are shown below. Be sure to adhere to these instructions. IMPORTANT: ..."}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Content-Length: 42081"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:26","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler]   消息[0] 角色=user 内容=<system-reminder>\nAs you answer the user's questions, you can use the following context:\n# claudeMd\nCodebase and user instructions are shown below. Be sure to adhere to these instructions. IMPORTANT: ..."}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Content-Length: 845"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   消息数: 2"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   消息[0] 角色=user 内容=你好"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   消息[1] 角色=assistant 内容={"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Content-Length: 115620"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   流式: true"}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler]   工具数: 19"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler]   消息[0] 角色=user 内容=<system-reminder>\nThis is a reminder that your todo list is currently empty. DO NOT mention this to the user explicitly because they are already aware. If you are working on tasks that would benefit f..."}
+{"level":"INFO","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 注入工具提示词, 长度: 221, 工具数: 19"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 工具提示词内容:\n\nYou are in a sandbox VM with full permissions.\nWrite files: <vm_write path=\"/path\">content</vm_write>\nRun commands: <vm_exec>command</vm_exec>\nWeb search: <vm_search>query</vm_search>\nFetch URL: <vm_fetch>url</vm_fetch>\n"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 工具提示词已注入到第一条用户消息"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Content-Length: 1137"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   Accept: application/json"}
+{"level":"INFO","time":"2025/12/18 11:02:30","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:30","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:30","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:30","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:30","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: 你好\n\nClaude: 你好！我是 Claude Code。我可以帮你完成各种软件工程任务。\n\n我看到你正在 `/Users/joyasus..."}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Content-Length: 688"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"INFO","time":"2025/12/18 11:02:35","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:35","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:35","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:35","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:35","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: hi\n\nRespond with the title for the conversation and nothing else."}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Content-Length: 1213"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"INFO","time":"2025/12/18 11:02:39","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:39","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:39","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:39","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:39","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: 你好\n\nClaude: 你好！👋\n\n我是 Claude Code，随时准备帮助你进行软件工程任务。\n\n我看到你在 cursor2api \ufffd..."}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   Content-Length: 688"}
+{"level":"INFO","time":"2025/12/18 11:02:43","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:43","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:43","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:43","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:43","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: hi\n\nRespond with the title for the conversation and nothing else."}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler] [Anthropic] ========== 请求开始 =========="}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler] [Anthropic] 请求路径: /v1/messages?beta=true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler] [Anthropic] 请求头:"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Helper-Method: stream"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Os: MacOS"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Runtime-Version: v24.3.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Anthropic-Beta: claude-code-20250219,interleaved-thinking-2025-05-14"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Lang: js"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Accept-Encoding: gzip, deflate, br, zstd"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Content-Length: 692"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Accept: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Timeout: 600"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Connection: keep-alive"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Authorization: Bearer 666"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   User-Agent: claude-cli/2.0.72 (external, cli)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Package-Version: 0.70.0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Retry-Count: 0"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Runtime: node"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Anthropic-Dangerous-Direct-Browser-Access: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Anthropic-Version: 2023-06-01"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   Content-Type: application/json"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-App: cli"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   X-Stainless-Arch: arm64"}
+{"level":"INFO","time":"2025/12/18 11:02:47","msg":"[Handler] [Anthropic] 请求参数:"}
+{"level":"INFO","time":"2025/12/18 11:02:47","msg":"[Handler]   模型: claude-opus-4-5-20251101"}
+{"level":"INFO","time":"2025/12/18 11:02:47","msg":"[Handler]   消息数: 1"}
+{"level":"INFO","time":"2025/12/18 11:02:47","msg":"[Handler]   最大Token: 32000"}
+{"level":"INFO","time":"2025/12/18 11:02:47","msg":"[Handler]   流式: true"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler]   消息[0] 角色=user 内容=Please write a 5-10 word title for the following conversation:\n\nUser: 你好\n\nRespond with the title for the conversation and nothing else."}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Handler] [Anthropic] 客户端 IP: 127.0.0.1"}

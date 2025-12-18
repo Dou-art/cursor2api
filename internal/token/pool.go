@@ -173,33 +173,18 @@ func (p *Pool) refreshAllTokens() {
 	log.Info("后台刷新完成 (轮询池: %d)", poolLen)
 }
 
-// GetToken 获取 Token（轮询方式）
+// GetToken 获取 Token（每次生成新 token）
 func (p *Pool) GetToken(apiKey string) (string, error) {
-	p.mu.RLock()
-	poolLen := len(p.roundRobin)
-	p.mu.RUnlock()
-
-	if poolLen == 0 {
-		return "", fmt.Errorf("no token available in pool")
+	// 每次请求生成新 token，避免被 Cursor 检测到重复使用
+	log.Debug("生成新 token...")
+	tokenStr, err := p.generateToken()
+	if err != nil {
+		log.Error("生成 token 失败: %v", err)
+		return "", err
 	}
-
-	// 轮询获取下一个 token
-	idx := atomic.AddInt32(&p.rrIndex, 1) % int32(poolLen)
-
-	p.mu.RLock()
-	entry := p.roundRobin[idx]
-	p.mu.RUnlock()
-
-	// 检查是否过期
-	if time.Since(entry.CreatedAt) >= tokenExpiry {
-		// 异步刷新这个 token
-		go p.refreshRoundRobinToken(int(idx))
-	}
-
 	atomic.AddInt64(&p.hitCount, 1)
-	atomic.AddInt64(&entry.UseCount, 1)
-	log.Debug("轮询 %s (idx: %d, uses: %d)", entry.Name, idx, entry.UseCount)
-	return entry.Token, nil
+	log.Debug("新 token 生成成功")
+	return tokenStr, nil
 }
 
 // refreshRoundRobinToken 刷新轮询池中指定索引的 token

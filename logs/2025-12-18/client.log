@@ -113,3 +113,34 @@
 {"level":"DEBUG","time":"2025/12/18 10:35:49","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
 {"level":"DEBUG","time":"2025/12/18 10:35:53","msg":"[Client] Cursor API 响应成功, 长度: 547"}
 {"level":"INFO","time":"2025/12/18 10:43:11","msg":"[Client] 客户端初始化完成"}
+{"level":"INFO","time":"2025/12/18 11:02:16","msg":"[Client] 客户端初始化完成"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Client] Cursor API 响应成功, 长度: 614"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:33","msg":"[Client] Cursor API 响应成功, 长度: 3719"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Client] Cursor API 响应成功, 长度: 659"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[Client] Cursor API 响应成功, 长度: 1616"}
+{"level":"DEBUG","time":"2025/12/18 11:02:36","msg":"[Client] Cursor API 响应成功, 长度: 1972"}
+{"level":"DEBUG","time":"2025/12/18 11:02:38","msg":"[Client] Cursor API 响应成功, 长度: 8371"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Client] Cursor API 响应成功, 长度: 556"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Client] Cursor API 响应成功, 长度: 609"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Client] Cursor API 响应成功, 长度: 556"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Client] 转发客户端 IP: 127.0.0.1"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[Client] 发送请求到 Cursor API: model=claude-opus-4-5-20251101"}
+{"level":"DEBUG","time":"2025/12/18 11:02:53","msg":"[Client] Cursor API 响应成功, 长度: 605"}

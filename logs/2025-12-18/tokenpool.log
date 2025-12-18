@@ -68,3 +68,20 @@
 {"level":"INFO","time":"2025/12/18 10:43:09","msg":"[TokenPool] 预热 Token-4 完成 (4/5)"}
 {"level":"INFO","time":"2025/12/18 10:43:11","msg":"[TokenPool] 预热 Token-5 完成 (5/5)"}
 {"level":"INFO","time":"2025/12/18 10:43:11","msg":"[TokenPool] Initialized (轮询池: 5)"}
+{"level":"INFO","time":"2025/12/18 11:02:07","msg":"[TokenPool] 预热 5 个 token..."}
+{"level":"INFO","time":"2025/12/18 11:02:09","msg":"[TokenPool] 预热 Token-1 完成 (1/5)"}
+{"level":"INFO","time":"2025/12/18 11:02:10","msg":"[TokenPool] 预热 Token-2 完成 (2/5)"}
+{"level":"INFO","time":"2025/12/18 11:02:12","msg":"[TokenPool] 预热 Token-3 完成 (3/5)"}
+{"level":"INFO","time":"2025/12/18 11:02:14","msg":"[TokenPool] 预热 Token-4 完成 (4/5)"}
+{"level":"INFO","time":"2025/12/18 11:02:16","msg":"[TokenPool] 预热 Token-5 完成 (5/5)"}
+{"level":"INFO","time":"2025/12/18 11:02:16","msg":"[TokenPool] Initialized (轮询池: 5)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[TokenPool] 轮询 Token-2 (idx: 1, uses: 1)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[TokenPool] 轮询 Token-3 (idx: 2, uses: 1)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:26","msg":"[TokenPool] 轮询 Token-4 (idx: 3, uses: 1)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[TokenPool] 轮询 Token-5 (idx: 4, uses: 1)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:28","msg":"[TokenPool] 轮询 Token-1 (idx: 0, uses: 1)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:30","msg":"[TokenPool] 轮询 Token-2 (idx: 1, uses: 2)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:35","msg":"[TokenPool] 轮询 Token-3 (idx: 2, uses: 2)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:39","msg":"[TokenPool] 轮询 Token-4 (idx: 3, uses: 2)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:43","msg":"[TokenPool] 轮询 Token-5 (idx: 4, uses: 2)"}
+{"level":"DEBUG","time":"2025/12/18 11:02:47","msg":"[TokenPool] 轮询 Token-1 (idx: 0, uses: 2)"}

@@ -19,3 +19,6 @@
 {"level":"INFO","time":"2025/12/18 10:43:02","msg":"[Main] 正在初始化 Token Pool..."}
 {"level":"INFO","time":"2025/12/18 10:43:11","msg":"[Main] 正在初始化客户端服务..."}
 {"level":"INFO","time":"2025/12/18 10:43:11","msg":"[Main] 服务运行在端口 3010"}
+{"level":"INFO","time":"2025/12/18 11:02:07","msg":"[Main] 正在初始化 Token Pool..."}
+{"level":"INFO","time":"2025/12/18 11:02:16","msg":"[Main] 正在初始化客户端服务..."}
+{"level":"INFO","time":"2025/12/18 11:02:16","msg":"[Main] 服务运行在端口 3010"}
