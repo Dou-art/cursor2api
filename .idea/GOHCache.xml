@@ -164,14 +164,14 @@
         <entry key="file://$PROJECT_DIR$/cmd/server/main.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765884934000" />
+              <option name="lastModified" value="1765988571371" />
             </ScannedPath>
           </value>
         </entry>
         <entry key="file://$PROJECT_DIR$/internal/browser/browser.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765885448000" />
+              <option name="lastModified" value="1765988571372" />
               <option name="schema">
                 <list>
                   <option value="Service" />
@@ -187,7 +187,7 @@
         <entry key="file://$PROJECT_DIR$/internal/config/config.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765885080000" />
+              <option name="lastModified" value="1765988729239" />
               <option name="schema">
                 <list>
                   <option value="Config" />
@@ -200,7 +200,7 @@
         <entry key="file://$PROJECT_DIR$/internal/handler/anthropic.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765885633000" />
+              <option name="lastModified" value="1765988571372" />
               <option name="schema">
                 <list>
                   <option value="MessagesRequest" />
@@ -217,7 +217,7 @@
         <entry key="file://$PROJECT_DIR$/internal/handler/models.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765884916000" />
+              <option name="lastModified" value="1765988571372" />
               <option name="schema">
                 <list>
                   <option value="Model" />
@@ -230,7 +230,7 @@
         <entry key="file://$PROJECT_DIR$/internal/handler/openai.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1765885479000" />
+              <option name="lastModified" value="1765988571372" />
               <option name="schema">
                 <list>
                   <option value="ChatCompletionRequest" />
@@ -273,6 +273,6 @@
         <entry key="usage" value="Usage" />
       </map>
     </option>
-    <option name="lastTimeChecked" value="1765886014493" />
+    <option name="lastTimeChecked" value="1765988740706" />
   </component>
 </project>

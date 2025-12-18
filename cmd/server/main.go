@@ -6,22 +6,28 @@
 package main
 
 import (
-	"log"
-
-	"cursor2api/internal/browser"
+	"cursor2api/internal/client"
 	"cursor2api/internal/config"
 	"cursor2api/internal/handler"
+	"cursor2api/internal/logger"
+	"cursor2api/internal/token"
 
 	"github.com/gin-gonic/gin"
 )
+
+var log = logger.Get().WithPrefix("Main")
 
 func main() {
 	// 加载配置
 	cfg := config.Get()
 
-	// 初始化浏览器服务
-	log.Println("[启动] 正在初始化浏览器服务...")
-	browser.GetService()
+	// 初始化 Token Pool（预热 token，确保启动时就准备好）
+	log.Info("正在初始化 Token Pool...")
+	token.GetPool()
+
+	// 初始化 HTTP 客户端服务
+	log.Info("正在初始化客户端服务...")
+	client.GetService()
 
 	// 创建 Gin 引擎
 	r := gin.Default()
@@ -43,9 +49,9 @@ func main() {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 
-	// 浏览器状态
-	r.GET("/browser/status", func(c *gin.Context) {
-		svc := browser.GetService()
+	// 客户端状态
+	r.GET("/status", func(c *gin.Context) {
+		svc := client.GetService()
 		hasToken := svc.GetXIsHuman() != ""
 		c.JSON(200, gin.H{"hasToken": hasToken})
 	})
@@ -57,8 +63,8 @@ func main() {
 	})
 
 	// 启动服务
-	log.Printf("[启动] 服务运行在端口 %s", cfg.Port)
+	log.Info("服务运行在端口 %s", cfg.Port)
 	if err := r.Run(":" + cfg.Port); err != nil {
-		log.Fatalf("[错误] 启动失败: %v", err)
+		log.Error("启动失败: %v", err)
 	}
 }

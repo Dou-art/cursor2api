@@ -1,20 +1,21 @@
 // Package handler 提供 HTTP 请求处理器
+// 包含 OpenAI 和 Anthropic API 兼容的处理函数
 package handler
 
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 	"time"
 
-	"cursor2api/internal/browser"
+	"cursor2api/internal/client"
+	"cursor2api/internal/logger"
 
 	"github.com/gin-gonic/gin"
 )
 
-// ================== OpenAI 兼容格式 ==================
+var log = logger.Get().WithPrefix("Handler")
 
 // ChatCompletionRequest OpenAI Chat Completion 请求格式
 type ChatCompletionRequest struct {
@@ -72,8 +73,6 @@ type ChunkChoice struct {
 	FinishReason *string       `json:"finish_reason"`
 }
 
-// ================== 处理器函数 ==================
-
 // ChatCompletions 处理 OpenAI Chat Completions API 请求
 func ChatCompletions(c *gin.Context) {
 	var req ChatCompletionRequest
@@ -82,9 +81,8 @@ func ChatCompletions(c *gin.Context) {
 		return
 	}
 
-	log.Printf("[OpenAI] 请求: model=%s, messages=%d, stream=%v", req.Model, len(req.Messages), req.Stream)
+	log.Info("[OpenAI] 请求: 模型=%s, 消息数=%d, 流式=%v", req.Model, len(req.Messages), req.Stream)
 
-	// 转换为 Cursor 请求格式
 	cursorReq := convertOpenAIToCursor(req)
 
 	if req.Stream {
@@ -95,18 +93,18 @@ func ChatCompletions(c *gin.Context) {
 }
 
 // convertOpenAIToCursor 将 OpenAI 请求转换为 Cursor 格式
-func convertOpenAIToCursor(req ChatCompletionRequest) browser.CursorChatRequest {
-	messages := make([]browser.CursorMessage, len(req.Messages))
+func convertOpenAIToCursor(req ChatCompletionRequest) client.CursorChatRequest {
+	messages := make([]client.CursorMessage, len(req.Messages))
 	for i, msg := range req.Messages {
-		messages[i] = browser.CursorMessage{
-			Parts: []browser.CursorPart{{Type: "text", Text: msg.Content}},
+		messages[i] = client.CursorMessage{
+			Parts: []client.CursorPart{{Type: "text", Text: msg.Content}},
 			ID:    generateID(),
 			Role:  msg.Role,
 		}
 	}
 
-	return browser.CursorChatRequest{
-		Context: []browser.CursorContext{{
+	return client.CursorChatRequest{
+		Context: []client.CursorContext{{
 			Type:     "file",
 			Content:  "",
 			FilePath: "/docs/",
@@ -119,7 +117,7 @@ func convertOpenAIToCursor(req ChatCompletionRequest) browser.CursorChatRequest 
 }
 
 // handleOpenAIStream 处理 OpenAI 流式请求
-func handleOpenAIStream(c *gin.Context, cursorReq browser.CursorChatRequest, model string) {
+func handleOpenAIStream(c *gin.Context, cursorReq client.CursorChatRequest, model string) {
 	c.Header("Content-Type", "text/event-stream")
 	c.Header("Cache-Control", "no-cache")
 	c.Header("Connection", "keep-alive")
@@ -130,7 +128,7 @@ func handleOpenAIStream(c *gin.Context, cursorReq browser.CursorChatRequest, mod
 
 	var buffer strings.Builder
 
-	svc := browser.GetService()
+	svc := client.GetService()
 	_ = svc.SendStreamRequest(cursorReq, func(chunk string) {
 		buffer.WriteString(chunk)
 		content := buffer.String()
@@ -170,7 +168,7 @@ func handleOpenAIStream(c *gin.Context, cursorReq browser.CursorChatRequest, mod
 					}},
 				}
 				chunkJSON, _ := json.Marshal(chunk)
-				c.Writer.Write([]byte(fmt.Sprintf("data: %s\n\n", chunkJSON)))
+				_, _ = fmt.Fprintf(c.Writer, "data: %s\n\n", chunkJSON)
 				flusher.Flush()
 			}
 		}
@@ -190,14 +188,14 @@ func handleOpenAIStream(c *gin.Context, cursorReq browser.CursorChatRequest, mod
 		}},
 	}
 	endJSON, _ := json.Marshal(endChunk)
-	c.Writer.Write([]byte(fmt.Sprintf("data: %s\n\n", endJSON)))
-	c.Writer.Write([]byte("data: [DONE]\n\n"))
+	_, _ = fmt.Fprintf(c.Writer, "data: %s\n\n", endJSON)
+	_, _ = c.Writer.WriteString("data: [DONE]\n\n")
 	flusher.Flush()
 }
 
 // handleOpenAINonStream 处理 OpenAI 非流式请求
-func handleOpenAINonStream(c *gin.Context, cursorReq browser.CursorChatRequest, model string) {
-	svc := browser.GetService()
+func handleOpenAINonStream(c *gin.Context, cursorReq client.CursorChatRequest, model string) {
+	svc := client.GetService()
 	result, err := svc.SendRequest(cursorReq)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

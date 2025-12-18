@@ -4,32 +4,133 @@
 
 ## 原理
 
-本项目利用 [Cursor 文档页面](https://cursor.com/cn/docs) 提供的免费 AI 聊天功能。该页面内置了一个 AI 助手，通过 `https://cursor.com/api/chat` 接口与后端通信。
+本项目利用 [Cursor 文档页面](https://cursor.com/cn/docs) 提供的免费 AI 聊天功能，通过 `https://cursor.com/api/chat` 接口与后端通信。
 
 **关键特点：**
 - **无需登录** - 文档页面的 AI 聊天功能对所有访问者开放
 - **无需 API Key** - 不需要 Cursor 账号或付费订阅
 - **支持多模型** - 可使用 Claude、GPT、Gemini 等模型
-
-本项目通过浏览器自动化技术访问该页面，将请求转发到 Cursor API，并将响应转换为标准的 OpenAI/Anthropic API 格式。
-
-**⚠️ 重要说明：** Cursor 文档页的 AI 助手基于 Inkeep 技术（类似 Claude Docs），是一个**只读的文档问答系统**，不支持原生的工具调用（Tool Use）。这意味着：
-- ❌ AI 无法直接执行命令或写入文件
-- ❌ 不支持 Anthropic 原生的 `tool_use` 协议
-- ✅ 本项目通过**自动执行模式**解决此限制（见下方说明）
-
-> 💡 **建议开启自动执行模式** (`auto_execute: true`)，可以实现类似工具调用的效果。当 AI 输出命令建议时，系统会自动提取并执行。
+- **纯 HTTP 方案** - 无需浏览器，资源占用低
 
 ![alt text](/static/image.png)
+
+## 技术架构
+
+### 核心思路
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│  客户端请求  │────▶│  cursor2api  │────▶│  Cursor API │
+│ (OpenAI/    │     │  (代理转换)   │     │ /api/chat   │
+│  Anthropic) │◀────│              │◀────│             │
+└─────────────┘     └──────────────┘     └─────────────┘
+```
+
+### 1. TLS 指纹模拟
+
+Cursor API 会检测请求的 TLS 指纹来判断是否为真实浏览器。本项目使用 [surf](https://github.com/enetx/surf) 库模拟 Chrome 浏览器的 TLS 特征：
+
+```go
+client := surf.NewClient().Builder().Impersonate().Chrome().Build()
+```
+
+同时模拟完整的 Chrome 请求头：
+- `sec-ch-ua`: Chrome 版本信息
+- `sec-ch-ua-platform`: 操作系统
+- `sec-fetch-*`: 请求来源信息
+- 等等...
+
+### 2. x-is-human Token 机制
+
+Cursor 使用 `x-is-human` 请求头进行人机验证。这个 token 由前端 JavaScript 计算生成，有效期约 25 分钟。
+
+**Token 生成流程：**
+
+```
+1. 获取 Cursor 验证脚本 (c.js)
+   GET https://cursor.com/xxx/xxx/c.js?...
+   
+2. 注入浏览器环境模拟 (env.js)
+   - navigator, window, document 等 DOM API
+   - WebGL 指纹信息
+   
+3. 执行脚本生成 token
+   Node.js 运行组合后的 JS 代码
+   
+4. 返回 x-is-human token
+```
+
+### 3. Token 池管理
+
+为了提高性能和避免频繁生成 token，实现了 Token 池机制：
+
+```
+┌─────────────────────────────────────────┐
+│              Token Pool                  │
+├─────────────────────────────────────────┤
+│  Token-1  │  Token-2  │  Token-3  │ ... │
+│  (预热)    │  (预热)    │  (预热)    │     │
+└─────────────────────────────────────────┘
+          ↓ 轮询获取 (Round Robin)
+     ┌─────────────────────┐
+     │    API 请求使用      │
+     └─────────────────────┘
+```
+
+**特性：**
+- **预热机制** - 启动时预生成 N 个 token（默认 3 个）
+- **轮询分发** - 请求按顺序使用不同 token，避免单个 token 过载
+- **自动刷新** - 后台每 20 分钟刷新所有 token（过期时间 25 分钟）
+- **懒加载刷新** - 使用时检测过期，异步触发刷新
+
+### 4. 协议转换
+
+将 OpenAI/Anthropic 格式转换为 Cursor 内部格式：
+
+```json
+// Anthropic 请求
+{
+  "model": "claude-3.5-sonnet",
+  "messages": [{"role": "user", "content": "Hello"}]
+}
+
+// 转换为 Cursor 格式
+{
+  "model": "claude-3.5-sonnet",
+  "id": "abc123",
+  "trigger": "submit-message",
+  "messages": [{
+    "role": "user",
+    "id": "xyz789",
+    "parts": [{"type": "text", "text": "Hello"}]
+  }]
+}
+```
+
+### 5. Tool Use 实现
+
+由于 Cursor 文档页 AI 不原生支持工具调用，通过 **Prompt 注入** 方式实现：
+
+```
+1. 请求带有 tools 定义
+   ↓
+2. 将工具定义注入到第一条用户消息
+   "你有以下工具可用: bash, read_file, write_file..."
+   ↓
+3. AI 按照提示格式输出工具调用
+   <tool_calls>[{"name":"bash","arguments":{"command":"ls"}}]</tool_calls>
+   ↓
+4. 解析响应，转换为标准 tool_use 格式返回
+```
 
 ## 功能特性
 
 - **Anthropic Messages API** - 完整支持 `/v1/messages` 接口
 - **OpenAI Chat API** - 支持 `/v1/chat/completions` 接口
 - **流式响应** - 支持 SSE 流式输出
-- **浏览器自动化** - 自动处理人机验证
+- **纯 HTTP 实现** - 无需浏览器，内存占用低
+- **TLS 指纹模拟** - 模拟真实浏览器特征
 - **Tool Use 协议** - 支持 Anthropic 工具调用协议
-- **自动执行模式** - 当 AI 拒绝执行时自动提取并执行命令
 
 ## 项目结构
 
@@ -38,9 +139,15 @@ cursor2api/
 ├── cmd/server/          # 程序入口
 │   └── main.go
 ├── internal/            # 内部包
-│   ├── browser/         # 浏览器自动化服务
+│   ├── client/          # Cursor API 客户端 (TLS 指纹模拟)
 │   ├── config/          # 配置管理
-│   └── handler/         # HTTP 处理器
+│   ├── handler/         # HTTP 处理器 (Anthropic/OpenAI 协议)
+│   ├── token/           # Token 池管理 (x-is-human 生成)
+│   ├── toolify/         # 工具调用处理 (Prompt 注入 + 解析)
+│   └── logger/          # 日志模块
+├── jscode/              # JS 脚本
+│   ├── env.js           # 浏览器环境模拟
+│   └── main.js          # Token 生成入口
 ├── static/              # 静态文件
 ├── config.yaml          # 配置文件
 └── README.md
@@ -48,15 +155,48 @@ cursor2api/
 
 ## 快速开始
 
+### 前置要求
+
+1. **获取浏览器指纹** - 在浏览器控制台运行以下脚本：
+
+```javascript
+function getBrowserFingerprint() {
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  let unmaskedVendor = '', unmaskedRenderer = '';
+  if (gl) {
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    if (debugInfo) {
+      unmaskedVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || '';
+      unmaskedRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || '';
+    }
+  }
+  return btoa(JSON.stringify({
+    "UNMASKED_VENDOR_WEBGL": unmaskedVendor,
+    "UNMASKED_RENDERER_WEBGL": unmaskedRenderer,
+    "userAgent": navigator.userAgent
+  }));
+}
+console.log('FP:', getBrowserFingerprint());
+```
+
+2. **获取 ScriptURL** - 访问 https://cursor.com/cn/docs，打开开发者工具网络面板，找到类似 `https://cursor.com/xxx/xxx/c.js?...` 的请求 URL
+
+3. **下载 env.js** - 参考 `jscode/README.md` 下载必要的 JS 文件
+
 ### Docker 部署 (推荐)
 
 ```bash
-# 使用 docker-compose
 docker-compose up -d
+```
 
-# 或者手动构建运行
-docker build -t cursor2api .
-docker run -d -p 3010:3010 --shm-size=2g cursor2api
+或者使用环境变量：
+
+```bash
+docker run -d -p 3010:3010 \
+  -e FP="你的base64指纹" \
+  -e SCRIPT_URL="https://cursor.com/xxx/xxx/c.js?..." \
+  cursor2api
 ```
 
 ### 本地运行
@@ -64,6 +204,9 @@ docker run -d -p 3010:3010 --shm-size=2g cursor2api
 ```bash
 # 安装依赖
 go mod tidy
+
+# 下载 env.js
+curl -o jscode/env.js https://raw.githubusercontent.com/jhhgiyv/cursorweb2api/master/jscode/env.js
 
 # 编译
 go build -o cursor2api ./cmd/server
@@ -74,50 +217,6 @@ go build -o cursor2api ./cmd/server
 
 服务默认运行在 `http://localhost:3010`
 
-## 浏览器安装
-
-程序需要 Chromium 内核浏览器。有以下几种方式：
-
-### 方式 1: 自动下载 (推荐)
-
-保持 `config.yaml` 中 `browser.path` 为空，程序会：
-1. 首先自动检测系统已安装的 Chrome/Chromium/Edge
-2. 如果未找到，则自动下载 Chromium 到 `~/.cache/rod/browser/`
-
-### 方式 2: 使用安装脚本
-
-```bash
-# 运行安装脚本
-./scripts/setup-browser.sh
-```
-
-### 方式 3: 手动安装
-
-**macOS:**
-```bash
-brew install --cask chromium
-# 或
-brew install --cask google-chrome
-```
-
-**Linux (Debian/Ubuntu):**
-```bash
-sudo apt-get update && sudo apt-get install -y chromium-browser
-```
-
-**Linux (Alpine):**
-```bash
-apk add --no-cache chromium
-```
-
-### 方式 4: 使用环境变量
-
-```bash
-# 指定浏览器路径
-export BROWSER_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-./cursor2api
-```
-
 ## 配置
 
 编辑 `config.yaml`：
@@ -126,19 +225,38 @@ export BROWSER_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrom
 # 服务端口
 port: 3010
 
-# 浏览器设置
-browser:
-  headless: true
-  # 留空则自动检测或下载，也可手动指定路径
-  path: ""
-  # 自动执行模式（见下方说明）
-  auto_execute: true
+# 请求超时（秒）
+timeout: 60
+
+# 代理设置（可选）
+# proxy: "http://127.0.0.1:7890"
+
+# Cursor 验证脚本 URL（必须配置）
+script_url: "https://cursor.com/xxx/xxx/c.js?i=0&v=3&h=cursor.com"
+
+# 外部 token 计算服务（可选，如果不配置则使用本地 Node.js）
+# x_is_human_server_url: ""
+
+# 浏览器指纹配置
+fingerprint:
+  unmasked_vendor_webgl: "Google Inc. (Intel)"
+  unmasked_renderer_webgl: "ANGLE (Intel, Intel(R) UHD Graphics ...)"
+  user_agent: "Mozilla/5.0 ..."
+
+# 支持的模型列表
+models: "gpt-4o,claude-3.5-sonnet,claude-3.7-sonnet"
+
+# Token 池配置
+token_pool_size: 3  # 预热 token 数量，默认 3
 ```
 
 支持的环境变量：
-- `PORT` - 覆盖端口配置
-- `BROWSER_PATH` - 覆盖浏览器路径
-- `AUTO_EXECUTE` - 开关自动执行模式 (`true`/`false`)
+- `PORT` - 服务端口
+- `PROXY` - 代理地址
+- `SCRIPT_URL` - Cursor 验证脚本 URL
+- `FP` - 浏览器指纹（base64 编码的 JSON）
+- `TOKEN_POOL_SIZE` - Token 池大小（默认 3）
+- `MODELS` - 模型列表
 
 ## API 接口
 
@@ -172,7 +290,7 @@ curl http://localhost:3010/v1/chat/completions \
 
 - `GET /v1/models` - 获取模型列表
 - `GET /health` - 健康检查
-- `GET /browser/status` - 浏览器状态
+- `GET /status` - 客户端状态（token 是否有效）
 
 ## Claude Code 集成
 

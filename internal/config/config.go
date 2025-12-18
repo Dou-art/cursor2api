@@ -2,9 +2,10 @@
 package config
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"log"
 	"os"
-	"runtime"
 	"sync"
 
 	"gopkg.in/yaml.v3"
@@ -14,16 +15,30 @@ import (
 type Config struct {
 	// Port 服务监听端口
 	Port string `yaml:"port"`
-	// Browser 浏览器相关配置
-	Browser BrowserConfig `yaml:"browser"`
+	// Timeout 请求超时时间（秒）
+	Timeout int `yaml:"timeout"`
+	// Proxy 代理地址
+	Proxy string `yaml:"proxy"`
+	// ScriptURL Cursor 验证脚本 URL
+	ScriptURL string `yaml:"script_url"`
+	// XIsHumanServerURL 外部 token 计算服务地址
+	XIsHumanServerURL string `yaml:"x_is_human_server_url"`
+	// Fingerprint 浏览器指纹配置
+	Fingerprint FingerprintConfig `yaml:"fingerprint"`
+	// Models 支持的模型列表
+	Models string `yaml:"models"`
+	// TokenPoolSize Token 轮询池大小
+	TokenPoolSize int `yaml:"token_pool_size"`
 }
 
-// BrowserConfig 浏览器配置
-type BrowserConfig struct {
-	// Headless 是否使用无头模式
-	Headless bool `yaml:"headless"`
-	// Path Chromium 可执行文件路径，留空则自动下载
-	Path string `yaml:"path"`
+// FingerprintConfig 浏览器指纹配置
+type FingerprintConfig struct {
+	// UnmaskedVendorWebGL WebGL 厂商
+	UnmaskedVendorWebGL string `yaml:"unmasked_vendor_webgl"`
+	// UnmaskedRendererWebGL WebGL 渲染器
+	UnmaskedRendererWebGL string `yaml:"unmasked_renderer_webgl"`
+	// UserAgent 用户代理
+	UserAgent string `yaml:"user_agent"`
 }
 
 var (
@@ -35,51 +50,16 @@ var (
 func Get() *Config {
 	once.Do(func() {
 		cfg = &Config{
-			Port: "3010",
-			Browser: BrowserConfig{
-				Headless: true,
-				Path:     "", // 留空表示自动检测或下载
+			Port:    "3010",
+			Timeout: 60,
+			Models:  "gpt-4o,claude-3.5-sonnet,claude-3.7-sonnet",
+			Fingerprint: FingerprintConfig{
+				UserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
 			},
 		}
 		load(cfg)
 	})
 	return cfg
-}
-
-// detectBrowserPath 自动检测系统中已安装的浏览器路径
-func detectBrowserPath() string {
-	var paths []string
-
-	switch runtime.GOOS {
-	case "darwin": // macOS
-		paths = []string{
-			"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-			"/Applications/Chromium.app/Contents/MacOS/Chromium",
-			"/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
-			"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
-		}
-	case "linux":
-		paths = []string{
-			"/usr/bin/chromium",
-			"/usr/bin/chromium-browser",
-			"/usr/bin/google-chrome",
-			"/usr/bin/google-chrome-stable",
-			"/snap/bin/chromium",
-		}
-	case "windows":
-		paths = []string{
-			`C:\Program Files\Google\Chrome\Application\chrome.exe`,
-			`C:\Program Files (x86)\Google\Chrome\Application\chrome.exe`,
-			`C:\Program Files\Microsoft\Edge\Application\msedge.exe`,
-		}
-	}
-
-	for _, p := range paths {
-		if _, err := os.Stat(p); err == nil {
-			return p
-		}
-	}
-	return "" // 返回空，让 go-rod 自动下载
 }
 
 // load 从配置文件和环境变量加载配置
@@ -100,20 +80,34 @@ func load(c *Config) {
 	if port := os.Getenv("PORT"); port != "" {
 		c.Port = port
 	}
-	if browserPath := os.Getenv("BROWSER_PATH"); browserPath != "" {
-		c.Browser.Path = browserPath
+	if proxy := os.Getenv("PROXY"); proxy != "" {
+		c.Proxy = proxy
 	}
-
-	// 如果浏览器路径未指定，尝试自动检测
-	if c.Browser.Path == "" {
-		c.Browser.Path = detectBrowserPath()
-		if c.Browser.Path != "" {
-			log.Printf("[配置] 自动检测到浏览器: %s", c.Browser.Path)
-		} else {
-			log.Printf("[配置] 未检测到浏览器，将使用 go-rod 自动下载")
+	if scriptURL := os.Getenv("SCRIPT_URL"); scriptURL != "" {
+		c.ScriptURL = scriptURL
+	}
+	if xIsHumanServerURL := os.Getenv("X_IS_HUMAN_SERVER_URL"); xIsHumanServerURL != "" {
+		c.XIsHumanServerURL = xIsHumanServerURL
+	}
+	if fp := os.Getenv("FP"); fp != "" {
+		// FP 是 base64 编码的 JSON
+		if decoded, err := base64.StdEncoding.DecodeString(fp); err == nil {
+			var fpConfig FingerprintConfig
+			if err := json.Unmarshal(decoded, &fpConfig); err == nil {
+				c.Fingerprint = fpConfig
+			}
 		}
+	}
+	if models := os.Getenv("MODELS"); models != "" {
+		c.Models = models
 	}
 
 	// 输出最终配置
-	log.Printf("[配置] 端口: %s", c.Port)
+	log.Printf("[配置] 端口: %s, 超时: %ds", c.Port, c.Timeout)
+	if c.ScriptURL != "" {
+		log.Printf("[配置] ScriptURL: %s", c.ScriptURL)
+	}
+	if c.XIsHumanServerURL != "" {
+		log.Printf("[配置] XIsHumanServerURL: %s", c.XIsHumanServerURL)
+	}
 }

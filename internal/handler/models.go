@@ -10,9 +10,14 @@ import (
 
 // SupportedModels 支持的模型列表
 var SupportedModels = []string{
-	"anthropic/claude-sonnet-4.5",
-	"openai/gpt-5-nano",
-	"google/gemini-2.5-flash",
+	"claude-4.5-opus",
+	"claude-4.5-sonnet",
+	"composer-1",
+	"gemini-3-flash",
+	"gemini-3-pro",
+	"gpt-5.1-codex-max",
+	"gpt-5.2",
+	"grok-code",
 }
 
 // Model 模型信息
