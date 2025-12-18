@@ -12,8 +12,6 @@
 - **支持多模型** - 可使用 Claude、GPT、Gemini 等模型
 - **纯 HTTP 方案** - 无需浏览器，资源占用低
 
-![alt text](/static/image.png)
-
 ## 技术架构
 
 ### 核心思路
