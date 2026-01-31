@@ -21,7 +21,7 @@ FROM alpine:3.19
 
 WORKDIR /app
 
-# 安装 Chromium 和必要的依赖
+# 安装 Chromium、Node.js 和必要的依赖
 RUN apk add --no-cache \
     chromium \
     nss \
@@ -30,6 +30,8 @@ RUN apk add --no-cache \
     ca-certificates \
     ttf-freefont \
     font-noto-cjk \
+    nodejs \
+    npm \
     && rm -rf /var/cache/apk/*
 
 # 设置 Chromium 环境变量
@@ -40,6 +42,7 @@ ENV CHROME_BIN=/usr/bin/chromium-browser
 COPY --from=builder /app/cursor2api .
 COPY --from=builder /app/config.yaml .
 COPY --from=builder /app/static ./static
+COPY --from=builder /app/jscode ./jscode
 
 # 创建非 root 用户
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
